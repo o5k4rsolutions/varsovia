@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varsavia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#E30613',
+                            dark: '#111827',
+                            light: '#F8FAFC',
+                            accent: '#F97316'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+            overflow-x: hidden;
+        }
+
+        .btn-fill {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .btn-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #0f172a;
+            z-index: -1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-fill:hover::before {
+            transform: translateX(100%);
+        }
+        .btn-fill-light::before {
+            background-color: #e2e8f0;
+        }
+
+        @keyframes bounceBar {
+            0%, 100% { transform: scaleY(0.4); background-color: #e2e8f0; }
+            50% { transform: scaleY(1); background-color: #E30613; }
+        }
+        .bar-loader span {
+            display: inline-block;
+            width: 6px;
+            height: 35px;
+            margin: 0 3px;
+            border-radius: 9999px;
+            animation: bounceBar 1.2s infinite ease-in-out;
+        }
+        .bar-loader span:nth-child(1) { animation-delay: 0.1s; }
+        .bar-loader span:nth-child(2) { animation-delay: 0.2s; }
+        .bar-loader span:nth-child(3) { animation-delay: 0.3s; }
+        .bar-loader span:nth-child(4) { animation-delay: 0.4s; }
+        .bar-loader span:nth-child(5) { animation-delay: 0.5s; }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes spinCookie {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinning-cookie {
+            animation: spinCookie 4s linear infinite;
+        }
+
+        @keyframes macMinimize {
+            0% { transform: scale(1) translateY(0); opacity: 1; }
+            100% { transform: scale(0.1) translateY(600px); opacity: 0; }
+        }
+        .mac-minimize {
+            animation: macMinimize 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalPopUp {
+            0% { transform: translateY(100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .modal-popup {
+            animation: modalPopUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-red-500 selection:text-white">
+
+    <div id="loading-screen" class="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="flex flex-col items-center space-y-6">
+            <img src="https://wszystko-o-tramsporcie.vercel.app/data/content/varsoeia_logo_szerokie.svg" alt="Varsavia Logo" class="h-14 w-auto object-contain animate-pulse">
+            <div class="bar-loader flex items-center h-12">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <p class="text-sm font-medium text-slate-500 tracking-wider uppercase">Ładowanie...</p>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <img src="vv-content/varsoeia_logo_szerokie.svg" alt="Varsavia" class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+            </a>
+
+            <nav class="hidden md:flex items-center space-x-8 font-medium text-slate-600">
+                <a href="#o-grze" class="hover:text-red-600 transition-colors duration-200">O grze</a>
+                <a href="#" target="_blank" class="hover:text-red-600 transition-colors duration-200">Rozkład jazdy</a>
+                <a href="#" target="_blank" class="hover:text-red-600 transition-colors duration-200">Kontakt</a>
+                <a href="#spolecznosci" class="hover:text-red-600 transition-colors duration-200">Społeczność</a>
+                <a href="#faq" class="hover:text-red-600 transition-colors duration-200">FAQ</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <a href="https://www.roblox.com" target="_blank" class="btn-fill relative inline-flex items-center justify-center px-6 py-2.5 rounded-full border-2 border-slate-900 text-slate-900 font-semibold text-sm overflow-hidden transition-all duration-300 hover:text-white group shadow-sm">
+                    <i class="fa-brands fa-roblox mr-2 text-lg"></i> Zagraj na Roblox
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative bg-slate-900 text-white overflow-hidden py-12 md:py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="relative rounded-3xl overflow-hidden bg-slate-800 shadow-2xl border border-slate-700 min-h-[480px] md:min-h-[560px] flex items-center">
+                    
+                    <div id="slider-track" class="absolute inset-0 flex transition-transform duration-700 ease-in-out">
+                        
+                        <div class="w-full h-full flex-shrink-0 relative flex items-center">
+                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1600&auto=format&fit=crop" alt="Warszawa Autobus" class="absolute inset-0 w-full h-full object-cover opacity-50 transform hover:scale-105 transition-transform duration-1000">
+                            <div class="relative z-20 max-w-2xl px-8 md:px-16 py-12 space-y-6">
+                                <span class="bg-red-600 text-white text-xs font-bold uppercase px-3 py-1.5 rounded-full tracking-wider">Gra</span>
+                                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">Witaj w Varsavia</h1>
+                                <p class="text-slate-300 text-base md:text-lg leading-relaxed">Wsiądź za kółko autobusu miejskiego, prowadź również wkrótce tramwaj po warszawskich torowiskach!</p>
+                                <div class="flex flex-wrap gap-4 pt-2">
+                                    <a href="https://www.roblox.com" target="_blank" class="btn-fill inline-flex items-center px-8 py-3 rounded-full bg-white text-slate-900 font-bold text-sm transition-all shadow-lg hover:text-white">
+                                        Zagraj teraz <i class="fa-solid fa-arrow-right ml-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-full flex-shrink-0 relative flex items-center">
+                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1541447271487-09612b3f49f7?q=80&w=1600&auto=format&fit=crop" alt="Tramwaj Warszawski" class="absolute inset-0 w-full h-full object-cover opacity-50 transform hover:scale-105 transition-transform duration-1000">
+                            <div class="relative z-20 max-w-2xl px-8 md:px-16 py-12 space-y-6">
+                                <span class="bg-amber-600 text-white text-xs font-bold uppercase px-3 py-1.5 rounded-full tracking-wider">Pojazdy</span>
+                                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">Prawdziwe modele pojazdów miejskich</h1>
+                                <p class="text-slate-300 text-base md:text-lg leading-relaxed">W naszym zespole powiedzieliśmy sobie jedno: Albo ładnie albo wcale!</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-full flex-shrink-0 relative flex items-center">
+                            <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent z-10"></div>
+                            <img src="#" alt="Metropolia" class="absolute inset-0 w-full h-full object-cover opacity-50 transform hover:scale-105 transition-transform duration-1000">
+                            <div class="relative z-20 max-w-2xl px-8 md:px-16 py-12 space-y-6">
+                                <span class="bg-blue-600 text-white text-xs font-bold uppercase px-3 py-1.5 rounded-full tracking-wider">Nasza społeczność</span>
+                                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">Dołącz do tysięcy graczy</h1>
+                                <p class="text-slate-300 text-base md:text-lg leading-relaxed">Wspólna jazda oraz miła atmosfera w grze. Dołącz do naszego serwera Discord i sam się przekonaj!</p>
+                                <div class="flex flex-wrap gap-4 pt-2">
+                                    <a href="#spolecznosci" class="btn-fill inline-flex items-center px-8 py-3 rounded-full bg-white text-slate-900 font-bold text-sm transition-all shadow-lg hover:text-white">
+                                        Dołącz do Discorda <i class="fa-brands fa-discord ml-2 text-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="absolute bottom-6 right-8 z-30 flex items-center space-x-3">
+                        <button onclick="currentSlide(0)" id="dot-0" class="w-6 h-3 rounded-full bg-white transition-all duration-300 shadow"></button>
+                        <button onclick="currentSlide(1)" id="dot-1" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300 shadow"></button>
+                        <button onclick="currentSlide(2)" id="dot-2" class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300 shadow"></button>
+                    </div>
+
+                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-sm transition-all">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center backdrop-blur-sm transition-all">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="o-grze" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-reveal">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-red-600 font-bold uppercase text-sm tracking-widest bg-red-50 px-4 py-1.5 rounded-full inline-block">O projekcie</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">
+                    <span id="typing-heading" class="typing-cursor">Co to jest Varsavia?</span>
+                </h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Varsavia to wyjątkowy symulator komunikacji miejskiej w Robloxie, stworzony z pasją do Warszawy. Odwzorowujemy realne trasy, przystanki i atmosferę polskiej stolicy w przystępny i wciągający sposób.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-2xl font-bold mb-6 group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-bus"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-red-600 transition-colors">Autobusy</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Prowadź nowoczesne, a w dodatku realistyczne autobusy Warszawskiego Transportu Publicznego!
+                    </p>
+                </div>
+              
+<div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mb-6 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-train-tram"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-amber-600 transition-colors">Tramwaje</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Steruj tramwajem po Warszawie! (Wkrótce)
+                    </p>
+                </div>
+
+              
+                <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                        <i class="fa-solid fa-city"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">Warszawa</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Odkrywaj charakterystyczne punkty Warszawy odtworzone w Roblox, które odwzorowaliśmy najlepiej jak się dało!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="spolecznosci" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-reveal">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-16 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                    <i class="fa-brands fa-discord"></i>
+                </div>
+                <div class="max-w-2xl mx-auto relative z-10 space-y-6">
+                    <span class="bg-indigo-600 text-white text-xs font-bold uppercase px-3.5 py-1.5 rounded-full tracking-wider">Nasza społeczność</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold">Dołącz do naszego serwera Discord</h2>
+                    <p class="text-slate-300 text-base md:text-lg">
+                        Bądź na bieżąco z nowymi aktualizacjami, zgłaszaj błędy, rozmawiaj z innymi i bierz udział w oficjalnych eventach gry!
+                    </p>
+                    <div class="pt-4 flex flex-wrap justify-center gap-4">
+                        <a href="https://discord.com" target="_blank" class="btn-fill inline-flex items-center px-8 py-3.5 rounded-full bg-indigo-600 text-white font-bold text-sm shadow-lg hover:bg-indigo-500 transition-all">
+                            <i class="fa-brands fa-discord mr-2 text-lg"></i> Dołącz do Discorda
+                        </a>
+                        <a href="https://www.roblox.com" target="_blank" class="btn-fill btn-fill-light inline-flex items-center px-8 py-3.5 rounded-full bg-white/10 text-white border border-white/20 font-bold text-sm backdrop-blur-sm transition-all hover:text-slate-900">
+                            Grupa Roblox
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 scroll-reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900">Najczęściej zadawane pytania</h2>
+                <p class="text-slate-600 mt-2">Wszystko, co musisz wiedzieć zanim zaczniesz grę w Varsavia.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Czy gra jest całkowicie darmowa?</h3>
+                    <p class="text-slate-600">Tak! Varsavia na Roblox jest w pełni darmowa dla wszystkich graczy. Możesz prowadzić autobusy i zwiedzać miasto bez ponoszenia żadnych kosztów.</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Na jakich urządzeniach działa gra?</h3>
+                    <p class="text-slate-600">Gra wspiera na ten moment tylko komputery PC oraz Laptopy.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section class="py-12 bg-white border-t border-slate-200 scroll-reveal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Partnerzy naszej gry</h3>
+            <div class="flex flex-wrap items-center justify-center gap-12 md:gap-16">
+                <a href="https://wszystko-o-tramsporcie.vercel.app/" target="_blank" class="group transition-transform duration-300 hover:scale-105">
+                    <img src="vv-content/logo_nowe_.svg" alt="Wszystko o TRAMsporcie" class="h-10 md:h-12 w-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity filter brightness-0">
+                </a>
+                <div class="flex items-center group transition-transform duration-300 hover:scale-105 cursor-default">
+                    <img src="vv-content/logo_rakso_szerokie.svg" alt="RAKSO Web Development" class="h-9 md:h-11 w-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-50 border-t border-slate-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <img src="vv-content/varsoeia_logo_szerokie.svg" alt="Varsavia" class="h-8 w-auto object-contain">
+                <span class="text-sm text-slate-500 font-medium">© 2026 Varsavia Roblox. Wszelkie prawa zastrzeżone.</span>
+            </div>
+            <div class="flex items-center space-x-6 text-sm text-slate-600">
+                <a href="#" class="hover:text-red-600 transition-colors">Regulamin</a>
+                <a href="#" class="hover:text-red-600 transition-colors">Polityka prywatności</a>
+                <a href="#" class="hover:text-red-600 transition-colors" onclick="openCookieSettings()">Ustawienia plików cookie</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-2xl p-6 md:p-8 transform translate-y-full transition-transform duration-500">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div class="space-y-3 max-w-4xl text-sm text-slate-600 leading-relaxed">
+                <p class="font-semibold text-slate-900 text-base">Varsavia i nasi partnerzy korzystają na tej stronie z plików cookie oraz podobnych technologii.</p>
+                <p>
+                    My i nasi partneri używamy niezbędnych plików cookie i podobnych technologii, aby zapewnić prawidłowe działanie witryny, utrzymać jej bezpieczeństwo oraz świadczyć usługi wyraźnie żądane przez użytkowników.<br>
+                    Za Twoją zgodą my i nasi partneri używamy plików cookie innych niż niezbędne oraz pokrewnych technologii, aby poprawić wydajność witryny, analizować ruch i sposób korzystania z serwisu oraz dostarczać spersonalizowane treści i dopasowane reklamy.
+                </p>
+                <p>
+                    Możesz wybrać opcję "Odrzuć wszystkie", "Akceptuj wszystkie" lub dostosować ustawienia plików cookie zgodnie z własnymi preferencjami.
+                </p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto shrink-0">
+                <button onclick="openCookieSettings()" class="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-medium text-sm hover:bg-slate-50 transition-colors text-center">
+                    Ustawienia plików cookie
+                </button>
+                <button onclick="acceptAllCookies()" class="btn-fill px-6 py-3 rounded-xl bg-amber-600 text-white font-medium text-sm hover:bg-amber-700 transition-colors shadow-sm text-center">
+                    Akceptuj wszystkie
+                </button>
+                <button onclick="rejectAllCookies()" class="btn-fill px-6 py-3 rounded-xl bg-amber-600 text-white font-medium text-sm hover:bg-amber-700 transition-colors shadow-sm text-center">
+                    Odrzuć wszystkie
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading-screen');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 700);
+            }, 800);
+
+            setTimeout(() => {
+                const banner = document.getElementById('cookie-banner');
+                banner.classList.remove('translate-y-full');
+            }, 1200);
+        });
+
+        const observerOptions = {
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(section => {
+            observer.observe(section);
+        });
+
+        function acceptAllCookies() {
+            const banner = document.getElementById('cookie-banner');
+            banner.classList.add('translate-y-full');
+            localStorage.setItem('varsavia_cookie_consent', 'accepted');
+        }
+
+        function rejectAllCookies() {
+            const banner = document.getElementById('cookie-banner');
+            banner.classList.add('translate-y-full');
+            localStorage.setItem('varsavia_cookie_consent', 'rejected');
+        }
+
+        function openCookieSettings() {
+            const existingBanner = document.getElementById('cookie-banner');
+            existingBanner.classList.add('translate-y-full');
+
+            const box = document.createElement('div');
+            box.id = 'cookie-settings-modal';
+            box.className = 'fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4';
+            box.innerHTML = `
+                <div id="cookie-modal-content" class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl modal-popup relative overflow-hidden">
+                    <div class="flex justify-center mb-2">
+                        <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 text-3xl spinning-cookie shadow-inner">
+                            <i class="fa-solid fa-cookie-bite"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 text-center">Ustawienia plików cookie</h3>
+                    <p class="text-sm text-slate-600 text-center">Wybierz preferencje prywatności dla serwisu Varsavia.</p>
+                    <div class="space-y-3 pt-2">
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200"><span class="text-sm font-medium text-slate-900">Niezbędne (wymagane)</span><input type="checkbox" checked disabled class="accent-red-600 w-4 h-4"></label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200"><span class="text-sm font-medium text-slate-900">Analityczne</span><input type="checkbox" checked class="accent-red-600 w-4 h-4" id="cookie-analytic"></label>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4">
+                        <button onclick="closeCookieSettings()" class="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-semibold hover:bg-slate-800 transition-colors w-full">Zapisz ustawienia</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(box);
+        }
+
+        function closeCookieSettings() {
+            const modalContent = document.getElementById('cookie-modal-content');
+            if (modalContent) {
+                modalContent.classList.remove('modal-popup');
+                modalContent.classList.add('mac-minimize');
+                setTimeout(() => {
+                    const modal = document.getElementById('cookie-settings-modal');
+                    if (modal) modal.remove();
+                }, 400);
+            }
+        }
+
+        let currentSlideIndex = 0;
+        const totalSlides = 3;
+        const sliderTrack = document.getElementById('slider-track');
+
+        function updateSlider() {
+            if (!sliderTrack) return;
+            sliderTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (dot) {
+                    if (i === currentSlideIndex) {
+                        dot.classList.remove('bg-white/50', 'w-3');
+                        dot.classList.add('bg-white', 'w-6');
+                    } else {
+                        dot.classList.add('bg-white/50', 'w-3');
+                        dot.classList.remove('bg-white', 'w-6');
+                    }
+                }
+            }
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index;
+            updateSlider();
+        }
+
+        let sliderInterval = setInterval(nextSlide, 10000);
+
+        const heroSection = document.querySelector('section');
+        if (heroSection) {
+            heroSection.addEventListener('mouseenter', () => clearInterval(sliderInterval));
+            heroSection.addEventListener('mouseleave', () => sliderInterval = setInterval(nextSlide, 10000));
+        }
+
+        const typingHeading = document.getElementById('typing-heading');
+        const headingTexts = ["Co to jest Varsavia?", "Gra na Robloxie", "Prowadź autobusy i tramwaje"];
+        let textIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+
+        function typeEffect() {
+            if (!typingHeading) return;
+            const currentText = headingTexts[textIdx];
+            if (isDeleting) {
+                typingHeading.textContent = currentText.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typingHeading.textContent = currentText.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIdx === currentText.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                textIdx = (textIdx + 1) % headingTexts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+
+        setTimeout(typeEffect, 1500);
+    </script>
+</body>
+</html>
